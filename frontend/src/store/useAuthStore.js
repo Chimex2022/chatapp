@@ -3,8 +3,8 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "https://chatapp-1-t4fn.onrender.com";
-  // const BASE_URL = "https://chatapp-1-t4fn.onrender.com";
+// const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "https://chatapp-1-t4fn.onrender.com";
+  const BASE_URL = "https://chatapp-1-t4fn.onrender.com";
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
@@ -45,7 +45,7 @@ export const useAuthStore = create((set, get) => ({
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axiosInstance.post("/auth/login", data);
+      const res = await axiosInstance.post("https://chatapp-1-t4fn.onrender.com/api/auth/login", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
 
