@@ -17,6 +17,8 @@ const LoginPage = () => {
     login(formData);
   };
 
+  const { email, password } = formData;
+
   return (
     <div className="h-screen grid lg:grid-cols-2">
       {/* Left Side - Form */}
@@ -50,7 +52,7 @@ const LoginPage = () => {
                   type="email"
                   className={`input input-bordered w-full pl-10`}
                   placeholder="you@example.com"
-                  value={formData.email}
+                  value={email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
@@ -68,7 +70,7 @@ const LoginPage = () => {
                   type={showPassword ? "text" : "password"}
                   className={`input input-bordered w-full pl-10`}
                   placeholder="••••••••"
-                  value={formData.password}
+                  value={password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
                 <button
