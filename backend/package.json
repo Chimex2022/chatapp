@@ -5,8 +5,12 @@
   "main": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "postinstall": "cd ../frontend && npm install && npm run build"
   },
+
+
+
   "keywords": [],
   "author": "",
   "type": "module",
@@ -23,6 +27,6 @@
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.9"
   }
 }
