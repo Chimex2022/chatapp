@@ -14,13 +14,17 @@ import { app, server } from "./lib/socket.js";
 dotenv.config();
 
 const PORT = process.env.PORT;
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://chatapp-smoky-psi.vercel.app'
+];
 const __dirname = path.resolve();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://chatapp-smoky-psi.vercel.app/",
+    allowedOrigins,
     credentials: true,
   })
 );
