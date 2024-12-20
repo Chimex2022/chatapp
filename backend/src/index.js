@@ -19,10 +19,9 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-  cors({
-    origin: "https://chatapp-smoky-psi.vercel.app/",
-    credentials: true,
-  })
+  cors(
+     
+ )
 );
 
 app.use("/api/auth", authRoutes);
