@@ -45,7 +45,7 @@ export const useAuthStore = create((set, get) => ({
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axiosInstance.post("https://chatapp-1-t4fn.onrender.com/api/auth/login", data);
+      const res = await axiosInstance.post(`${BASE_URL}/auth/login`, data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
 
