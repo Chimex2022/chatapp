@@ -18,13 +18,19 @@ const __dirname = path.resolve();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: 'https://chatapp-smoky-psi.vercel.app/', credentials: true }));
+// app.use(cors({ origin: 'https://chatapp-smoky-psi.vercel.app/', credentials: true }));
+
+const allowedOrigins = ["https://chatapp-smoky-psi.vercel.app"];
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-app.get("/test", (req, res) => {
-  res.json("Server");
-});
+  app.use(
+    cors({
+      origin: allowedOrigins, // Explicitly allow your front-end origin
+      credentials: true, // Allow credentials
+    })
+);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
