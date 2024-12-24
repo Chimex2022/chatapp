@@ -46,6 +46,9 @@ export const useAuthStore = create((set, get) => ({
     try {
       const res = await axiosInstance.post("/auth/login", data, {
         withCredentials: true, // Required for cookies/auth headers
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
       });
       set({ authUser: res.data });
       toast.success("Logged in successfully");
