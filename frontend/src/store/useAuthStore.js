@@ -47,7 +47,7 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.post("/auth/login", data, {
         withCredentials: true, // Required for cookies/auth headers
         headers: {
-          'Access-Control-Allow-Origin': '*',
+          'Accept': '*/*',
         },
       });
       set({ authUser: res.data });
