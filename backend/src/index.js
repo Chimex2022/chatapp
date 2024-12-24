@@ -15,7 +15,7 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 const __dirname = path.resolve();
-const allowedOrigins = ["https://chatapp-smoky-psi.vercel.app"];
+// const allowedOrigins = ["https://chatapp-smoky-psi.vercel.app"];
 
 app.use(express.json());
 app.use(cookieParser());
@@ -23,9 +23,13 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.get("/test", (req, res) => {
+  res.send("test");
+});
+
   app.use(
     cors({
-      origin: allowedOrigins, // Explicitly allow your front-end origin
+      origin: "*", // Explicitly allow your front-end origin
       credentials: true, // Allow credentials
     })
 );
