@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "proxy": "https://chatapp-1-t4fn.onrender.com/api"
+    "preview": "vite preview"
 
   },
   "dependencies": {
