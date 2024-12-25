@@ -17,22 +17,17 @@ const PORT = process.env.PORT;
 const __dirname = path.resolve();
 // const allowedOrigins = ["https://chatapp-smoky-psi.vercel.app"];
 
+app.get("/test", (req, res) => {
+  res.send("test");
+});
 app.use(express.json());
 app.use(cookieParser());
 
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-app.get("/test", (req, res) => {
-  res.send("test");
-});
 
-  app.use(
-    cors({
-      origin: "*", // Explicitly allow your front-end origin
-      credentials: true, // Allow credentials
-    })
-);
+  app.use(cors({origin: "*"}));
 
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static(path.join(__dirname, "../frontend/dist")));
