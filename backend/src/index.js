@@ -21,10 +21,10 @@ app.get("/test", (req, res) => {
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(cors({origin: "*", credentials: true}));
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-
-app.use(cors({origin: "*"}));
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
