@@ -18,122 +18,39 @@ export const useAuthStore = create((set, get) => ({
 
   checkAuth: async () => {
     try {
-      // Make API call to check authentication
       const res = await axiosInstance.get("/auth/check");
-      
-      // Update state with authenticated user
+
       set({ authUser: res.data });
-  
-      // Connect socket if authentication is successful
       get().connectSocket();
     } catch (error) {
-      console.error("Error in checkAuth:", error.response?.data?.message || error.message);
-      
-      // Reset authenticated user to null on error
+      console.log("Error in checkAuth:", error);
       set({ authUser: null });
     } finally {
-      // Indicate that authentication check is complete
       set({ isCheckingAuth: false });
     }
   },
-  
-  // signup: async (data) => {
-  //   // Indicate signing-up process has started
-  //   set({ isSigningUp: true });
-  
-  //   try {
-  //     // Make API call to signup with the correct base URL
-  //     const res = await axiosInstance.post("/auth/signup", data);
-  
-  //     // Update state with newly signed-up user
-  //     set({ authUser: res.data });
-  
-  //     // Notify the user of successful account creation
-  //     toast.success("Account created successfully");
-  
-  //     // Connect socket after successful signup
-  //     get().connectSocket();
-  //   } catch (error) {
-  //     // Handle error gracefully
-  //     let errorMessage = "An error occurred during signup"; // Default fallback message
 
-  //     if (error?.response) {
-  //       if (error.response.status === 500) {
-  //         errorMessage = "Internal Server Error. Please try again later.";
-  //       } else {
-  //         errorMessage = error.response.data.message || errorMessage;
-  //       }
-  //     } else if (error?.message) {
-  //       errorMessage = error.message;
-  //     }
-  
-  //     // Display error message to the user
-  //     toast.error(errorMessage);
-  
-  //     // Optionally, log the error for debugging (more detailed for developers)
-  //     console.error("Error in signup:", errorMessage);
-  //   } finally {
-  //     // Indicate that signing-up process has ended
-  //     set({ isSigningUp: false });
-  //   }
-  // },
-  
   signup: async (data) => {
-    // Indicate signing-up process has started
     set({ isSigningUp: true });
-  
     try {
-      // Make API call to signup with the correct base URL
       const res = await axiosInstance.post("/auth/signup", data);
-  
-      // Update state with newly signed-up user
       set({ authUser: res.data });
-  
-      // Notify the user of successful account creation
       toast.success("Account created successfully");
-  
-      // Connect socket after successful signup
       get().connectSocket();
     } catch (error) {
-      // Handle error gracefully with fallback messages
-      let errorMessage = "An error occurred during signup"; // Default fallback message
-  
-      if (error?.response) {
-        // Handle specific server response errors
-        switch (error.response.status) {
-          case 400:
-            errorMessage = "Invalid signup data. Please check your input.";
-            break;
-          case 401:
-            errorMessage = "Unauthorized request. Please check your credentials.";
-            break;
-          case 500:
-            errorMessage = "Internal Server Error. Please try again later.";
-            break;
-          default:
-            errorMessage = error.response.data?.message || errorMessage;
-        }
-      } else if (error?.message) {
-        // Handle generic network errors
-        errorMessage = error.message;
-      }
-  
-      // Show error notification
-      toast.error(errorMessage);
+      toast.error(error.response.data.message);
     } finally {
-      // Reset signing-up state to false after the process completes
       set({ isSigningUp: false });
     }
-  };
+  },
   
-
+ 
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
       const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
-
       get().connectSocket();
     } catch (error) {
       toast.error(error.response.data.message);
