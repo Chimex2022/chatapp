@@ -20,8 +20,12 @@ app.get("/test", (req, res) => {
 });
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: 'https://chatapp-smoky-psi.vercel.app' // Allow only this origin
+}));
 
-app.use(cors({origin: "*", credentials: true}));
+
+// app.use(cors({origin: "*", credentials: true}));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
