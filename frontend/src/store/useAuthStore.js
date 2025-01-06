@@ -3,7 +3,13 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-c
+
+const BASE_URL = import.meta.env.VITE_API_DOMAIN || 
+                   (import.meta.env.MODE === "development" 
+                    ? "http://localhost:5001" 
+                    : "https://chatapp-production-d8dd.up.railway.app");
+
+
 export const useAuthStore = create((set, get) => ({
   authUser: null,
   isSigningUp: false,
@@ -15,36 +21,65 @@ export const useAuthStore = create((set, get) => ({
 
   checkAuth: async () => {
     try {
-      const res = await axiosInstance.get("/auth/check");
-
+      // Make API call to check authentication
+      const res = await axiosInstance.get("/api/auth/check");
+      
+      // Update state with authenticated user
       set({ authUser: res.data });
+  
+      // Connect socket if authentication is successful
       get().connectSocket();
     } catch (error) {
-      console.log("Error in checkAuth:", error);
+      console.error("Error in checkAuth:", error.response?.data?.message || error.message);
+      
+      // Reset authenticated user to null on error
       set({ authUser: null });
     } finally {
+      // Indicate that authentication check is complete
       set({ isCheckingAuth: false });
     }
   },
-
+  
   signup: async (data) => {
+    // Indicate signing-up process has started
     set({ isSigningUp: true });
+  
     try {
-      const res = await axiosInstance.post("/auth/signup", data);
+      // Make API call to signup with the correct base URL
+      const res = await axiosInstance.post("/api/auth/signup", data);
+  
+      // Update state with newly signed-up user
       set({ authUser: res.data });
+  
+      // Notify the user of successful account creation
       toast.success("Account created successfully");
+  
+      // Connect socket after successful signup
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      // Handle error gracefully
+      const errorMessage =
+        error?.response?.data?.message || // API-specific error message
+        error?.message || // Generic error message
+        "An error occurred during signup"; // Fallback message
+  
+      // Display error message to the user
+      toast.error(errorMessage);
+  
+      // Optionally, log the error for debugging (more detailed for developers)
+      console.error("Error in signup:", errorMessage);
     } finally {
+      // Indicate that signing-up process has ended
       set({ isSigningUp: false });
     }
   },
+  
+  
 
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axiosInstance.post("/auth/login", data);
+      const res = await axiosInstance.post("/api/auth/login", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
 
@@ -58,7 +93,7 @@ export const useAuthStore = create((set, get) => ({
 
   logout: async () => {
     try {
-      await axiosInstance.post("/auth/logout");
+      await axiosInstance.post("/api/auth/logout");
       set({ authUser: null });
       toast.success("Logged out successfully");
       get().disconnectSocket();
@@ -70,7 +105,7 @@ export const useAuthStore = create((set, get) => ({
   updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
     try {
-      const res = await axiosInstance.put("/auth/update-profile", data);
+      const res = await axiosInstance.put("/api/auth/update-profile", data);
       set({ authUser: res.data });
       toast.success("Profile updated successfully");
     } catch (error) {
