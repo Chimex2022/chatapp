@@ -21,8 +21,14 @@ app.get("/test", (req, res) => {
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: 'https://chatapp-smoky-psi.vercel.app || http://localhost:5174' // Allow only this origin
+  origin: 'https://chatapp-smoky-psi.vercel.app/' // Allow only this origin
 }));
+// app.use(cors({
+//   origin: 'http://localhost:5174', // Replace with your frontend's URL
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+//   allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+//   credentials: true // If using cookies or authentication
+// }));
 
 
 // app.use(cors({origin: "*", credentials: true}));
