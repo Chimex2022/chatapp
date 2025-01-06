@@ -55,10 +55,17 @@ export const useAuthStore = create((set, get) => ({
       get().connectSocket();
     } catch (error) {
       // Handle error gracefully
-      const errorMessage =
-        error?.response?.data?.message || // API-specific error message
-        error?.message || // Generic error message
-        "An error occurred during signup"; // Fallback message
+      let errorMessage = "An error occurred during signup"; // Default fallback message
+
+      if (error?.response) {
+        if (error.response.status === 500) {
+          errorMessage = "Internal Server Error. Please try again later.";
+        } else {
+          errorMessage = error.response.data.message || errorMessage;
+        }
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
   
       // Display error message to the user
       toast.error(errorMessage);
