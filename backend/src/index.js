@@ -18,17 +18,17 @@ const __dirname = path.resolve();
 app.get("/test", (req, res) => {
   res.send("test");
 });
-app.use(express.json());
+app.use(express.json()); // Parse JSON payloads
 app.use(cookieParser());
-app.use(cors({
-  origin: 'https://chatapp-smoky-psi.vercel.app/' // Allow only this origin
-}));
 // app.use(cors({
-//   origin: 'http://localhost:5174', // Replace with your frontend's URL
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
-//   allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
-//   credentials: true // If using cookies or authentication
+//   origin: 'https://chatapp-smoky-psi.vercel.app/' // Allow only this origin
 // }));
+app.use(cors({
+  origin: 'https://chatapp-smoky-psi.vercel.app/', // Replace with your frontend's URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+  credentials: true // If using cookies or authentication
+}));
 
 
 // app.use(cors({origin: "*", credentials: true}));
