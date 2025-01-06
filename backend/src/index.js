@@ -24,7 +24,7 @@ app.use(cookieParser());
 //   origin: 'https://chatapp-smoky-psi.vercel.app/' // Allow only this origin
 // }));
 app.use(cors({
-  origin: 'https://chatapp-smoky-psi.vercel.app/', // Replace with your frontend's URL
+  origin: 'https://chatapp-smoky-psi.vercel.app/', // Allow only this origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
   credentials: true // If using cookies or authentication
